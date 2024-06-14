@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sendbird-uikit-sample-flutter-dev
+  description: Flutter UIKit Sample (for development)
+  annotations:
+    github.com/project-slug: sendbird/sendbird-uikit-sample-flutter-dev
+spec:
+  type: sample
+  lifecycle: production
+  owner: dep-client-platform
+  system: sendbird-chat
