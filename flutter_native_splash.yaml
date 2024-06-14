@@ -1,0 +1,17 @@
+# dart run flutter_native_splash:create --path=flutter_native_splash.yaml
+
+flutter_native_splash:
+  color: "#F0F0F0"
+#  image: assets/images/logo_sendbird.png
+#  color_dark: "#161616"
+#  image_dark: assets/images/logo_sendbird.png
+
+  android_12:
+#    image: assets/images/logo_sendbird.png
+    color: "#F0F0F0"
+    icon_background_color: "#F0F0F0"
+#    image_dark: assets/images/logo_sendbird.png
+#    color_dark: "#161616"
+#    icon_background_color_dark: "#161616"
+
+  web: false
