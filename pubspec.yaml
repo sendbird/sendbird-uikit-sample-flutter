@@ -35,10 +35,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  sendbird_uikit: ^1.0.0-beta.1
-  sendbird_chat_sdk: ^4.2.16
+  sendbird_uikit: ^1.0.0-beta.3
+  sendbird_chat_sdk: ^4.2.19
   provider: ^6.1.2
-  intl: ^0.18.1
+  intl: '>=0.18.1 <1.0.0'
   shared_preferences: ^2.2.3
   fluttertoast: ^8.2.5
 

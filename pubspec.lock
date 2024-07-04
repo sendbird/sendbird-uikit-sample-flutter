@@ -737,18 +737,18 @@ packages:
     dependency: "direct main"
     description:
       name: sendbird_chat_sdk
-      sha256: "0e8a23ad259dd7b0385c4333358bc7a5f78fe3538deababde2ed36ff2a964e28"
+      sha256: "69a76bdc79b0baf033e65f50e0734bc0fa2c9a6bd165d523ac0876b6c5026d13"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.16"
+    version: "4.2.19"
   sendbird_uikit:
     dependency: "direct main"
     description:
       name: sendbird_uikit
-      sha256: fff1e8f236dc32e5be139a21e2bf156b40c0eb9b08651058d00967826882d5c9
+      sha256: "816f6e3e860242fe0b0e8d15f36156d8182aacf9cf809360c27c46760beda2d0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0-beta.1"
+    version: "1.0.0-beta.3"
   shared_preferences:
     dependency: "direct main"
     description:

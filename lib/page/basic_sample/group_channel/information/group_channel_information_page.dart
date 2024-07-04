@@ -23,7 +23,7 @@ class GroupChannelInformationPageState
       body: SBUGroupChannelInformationScreen(
         messageCollectionNo: int.parse(messageCollectionNo),
         onChannelLeft: (channel) {
-          Get.offAndToNamed('/group_channel/list');
+          Get.until((route) => Get.currentRoute == '/group_channel/list');
         },
         onModerationsButtonClicked: (channel) {
           Get.toNamed('/group_channel/moderations/$messageCollectionNo');
