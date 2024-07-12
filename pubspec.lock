@@ -734,7 +734,7 @@ packages:
     source: hosted
     version: "0.27.7"
   sendbird_chat_sdk:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sendbird_chat_sdk
       sha256: d6afd1ee37869a320a7b3b4bb29720dd0aecdde9c46710f666b139ccc9eb0aff

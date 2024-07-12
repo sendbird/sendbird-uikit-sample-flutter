@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   sendbird_uikit: ^1.0.0-beta.4
+  sendbird_chat_sdk: ^4.2.20
   provider: ^6.1.2
   intl: '>=0.18.1 <1.0.0'
   shared_preferences: ^2.2.3
