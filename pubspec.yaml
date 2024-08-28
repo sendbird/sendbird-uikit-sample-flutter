@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   sendbird_uikit: ^1.0.0-beta.4
-  sendbird_chat_sdk: ^4.2.20
+  sendbird_chat_sdk: ^4.2.22
   provider: ^6.1.2
   intl: '>=0.18.1 <1.0.0'
   shared_preferences: ^2.2.3
@@ -46,7 +46,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_native_splash: ^2.4.0
-  flutter_local_notifications: ^17.1.2
+  flutter_local_notifications: ^17.2.2
   push: ^2.3.0
   flutter_app_badger: ^1.5.0
   image_picker: ^1.1.1
