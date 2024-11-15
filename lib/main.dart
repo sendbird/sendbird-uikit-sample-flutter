@@ -15,6 +15,7 @@ import 'package:sendbird_uikit_sample/page/basic_sample/basic_sample_page.dart';
 import 'package:sendbird_uikit_sample/page/basic_sample/group_channel/group_channel_create_page.dart';
 import 'package:sendbird_uikit_sample/page/basic_sample/group_channel/group_channel_list_page.dart';
 import 'package:sendbird_uikit_sample/page/basic_sample/group_channel/group_channel_page.dart';
+import 'package:sendbird_uikit_sample/page/basic_sample/group_channel/group_channel_video_viewer_page.dart';
 import 'package:sendbird_uikit_sample/page/basic_sample/group_channel/information/group_channel_information_page.dart';
 import 'package:sendbird_uikit_sample/page/basic_sample/group_channel/information/group_channel_members_page.dart';
 import 'package:sendbird_uikit_sample/page/basic_sample/group_channel/information/moderation/group_channel_banned_users_page.dart';
@@ -129,6 +130,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/group_channel/create',
           page: () => const GroupChannelCreatePage(),
+          transition: Transition.noTransition,
+        ),
+        GetPage(
+          name: '/group_channel/video_viewer',
+          page: () => const GroupChannelVideoViewerPage(),
           transition: Transition.noTransition,
         ),
         GetPage(

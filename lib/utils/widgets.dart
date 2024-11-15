@@ -6,14 +6,17 @@ import 'package:sendbird_uikit_sample/uikit/uikit.dart';
 
 class Widgets {
   static Widget scaffold({
+    bool noAppBar = false,
     Color? unsafeAreaColor,
     required body,
   }) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
-        child: AppBar(),
-      ),
+      appBar: noAppBar
+          ? null
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: AppBar(),
+            ),
       backgroundColor: unsafeAreaColor,
       body: unsafeAreaColor != null ? SafeArea(child: body) : body,
     );

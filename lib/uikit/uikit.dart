@@ -88,6 +88,7 @@ class UIKit {
 
     return await SendbirdUIKit.init(
       appId: appId,
+      options: SendbirdChatOptions()..useAutoResend = true,
       takePhoto: kIsWeb
           ? null
           : () async {
