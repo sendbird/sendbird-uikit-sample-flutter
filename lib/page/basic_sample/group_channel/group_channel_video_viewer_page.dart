@@ -48,47 +48,50 @@ class GroupChannelVideoViewerPageState
       removeTop: true,
       child: Widgets.scaffold(
         noAppBar: true,
-        body: Stack(children: [
-          Center(
-            child: _controller.value.isInitialized
-                ? AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
-                  )
-                : Container(color: Colors.black),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(20),
+        body: Container(
+          color: Colors.black,
+          child: Stack(children: [
+            Center(
+              child: _controller.value.isInitialized
+                  ? AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )
+                  : Container(color: Colors.black),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
-                      ),
-                      Icon(
-                        SBUIcons.close,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                    ],
+                        Icon(
+                          SBUIcons.close,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }
