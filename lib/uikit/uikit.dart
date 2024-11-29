@@ -118,10 +118,13 @@ class UIKit {
               return null;
             },
       choosePhoto: () async {
-        return await _chooseFile(isPhoto: true);
+        return await _chooseFile(fileType: FileType.image);
+      },
+      chooseMedia: () async {
+        return await _chooseFile(fileType: FileType.media);
       },
       chooseDocument: () async {
-        return await _chooseFile(isPhoto: false);
+        return await _chooseFile(fileType: FileType.any);
       },
       downloadFile: kIsWeb
           ? null
@@ -131,14 +134,14 @@ class UIKit {
     );
   }
 
-  static Future<FileInfo?> _chooseFile({required bool isPhoto}) async {
+  static Future<FileInfo?> _chooseFile({required FileType fileType}) async {
     try {
       if (!kIsWeb && Platform.isAndroid) {
         await _getPermission(PermissionType.androidSharedStorage);
       }
 
       final result = await FilePicker.platform.pickFiles(
-        type: isPhoto ? FileType.image : FileType.any,
+        type: fileType,
         allowMultiple: false,
       );
 
