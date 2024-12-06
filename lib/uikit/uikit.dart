@@ -143,6 +143,7 @@ class UIKit {
       final result = await FilePicker.platform.pickFiles(
         type: fileType,
         allowMultiple: false,
+        compressionQuality: 0, // for Android 10
       );
 
       if (result != null && result.files.isNotEmpty) {
