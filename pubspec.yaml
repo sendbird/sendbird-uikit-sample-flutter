@@ -48,7 +48,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   flutter_local_notifications: ^17.2.2
   push: ^2.3.0
-  flutter_app_badger: ^1.5.0
+  app_badge_plus: ^1.1.6
   image_picker: ^1.1.1
   file_picker: ^8.0.3
   background_downloader: ^8.5.2

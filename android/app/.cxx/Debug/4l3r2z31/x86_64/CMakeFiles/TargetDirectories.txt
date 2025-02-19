@@ -1,0 +1,2 @@
+/Users/tyler.jeong/git/sendbird-uikit-sample-flutter-dev/android/app/.cxx/Debug/4l3r2z31/x86_64/CMakeFiles/edit_cache.dir
+/Users/tyler.jeong/git/sendbird-uikit-sample-flutter-dev/android/app/.cxx/Debug/4l3r2z31/x86_64/CMakeFiles/rebuild_cache.dir
