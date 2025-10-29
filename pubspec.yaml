@@ -35,8 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  sendbird_uikit: ^1.0.0
-  sendbird_chat_sdk: ^4.2.30
+  sendbird_uikit: ^1.2.0
+  sendbird_chat_sdk: ^4.7.0
   provider: ^6.1.2
   intl: '>=0.18.1 <1.0.0'
   shared_preferences: ^2.2.3
@@ -48,7 +48,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   flutter_local_notifications: ^17.2.2
   push: ^2.3.0
-  flutter_app_badger: ^1.5.0
+  app_badge_plus: ^1.1.6
   image_picker: ^1.1.1
   file_picker: ^8.0.3
   background_downloader: ^8.5.2

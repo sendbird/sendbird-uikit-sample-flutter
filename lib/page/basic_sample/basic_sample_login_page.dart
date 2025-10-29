@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:sendbird_chat_sdk/sendbird_chat_sdk.dart';
 import 'package:sendbird_uikit_sample/uikit/uikit.dart';
 import 'package:sendbird_uikit_sample/utils/app_prefs.dart';
 import 'package:sendbird_uikit_sample/utils/widgets.dart';
@@ -21,10 +22,15 @@ class _BasicSampleLoginPageState extends State<BasicSampleLoginPage> {
   final userIdController = TextEditingController();
   final nicknameController = TextEditingController();
 
+  final connectionHandlerIdentifier = 'basic_sample_login_page';
+
   @override
   void initState() {
     super.initState();
     _init();
+
+    SendbirdChat.addConnectionHandler(
+        connectionHandlerIdentifier, MyConnectionHandler());
   }
 
   @override
@@ -32,6 +38,8 @@ class _BasicSampleLoginPageState extends State<BasicSampleLoginPage> {
     appIdController.dispose();
     userIdController.dispose();
     nicknameController.dispose();
+
+    SendbirdChat.removeConnectionHandler(connectionHandlerIdentifier);
     super.dispose();
   }
 
@@ -374,5 +382,27 @@ class _BasicSampleLoginPageState extends State<BasicSampleLoginPage> {
         ],
       ),
     );
+  }
+}
+
+class MyConnectionHandler extends ConnectionHandler {
+  @override
+  void onConnected(String userId) {}
+
+  @override
+  void onDisconnected(String userId) {}
+
+  @override
+  void onReconnectFailed() {}
+
+  @override
+  void onReconnectStarted() {}
+
+  @override
+  void onReconnectSucceeded() {
+    if (Get.currentRoute.startsWith('/basic_sample_login')) {
+      UIKit.connected(
+          UIKit.currentAppId, UIKit.currentUserId, UIKit.currentNickname);
+    }
   }
 }
