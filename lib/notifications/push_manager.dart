@@ -224,7 +224,11 @@ class PushManager {
   static Future<bool> unregisterPushTokenAll() async {
     if (kIsWeb) false;
 
-    await SendbirdChat.unregisterPushTokenAll();
+    try {
+      await SendbirdChat.unregisterPushTokenAll();
+    } catch (_) {
+      return false;
+    }
     return true;
   }
 

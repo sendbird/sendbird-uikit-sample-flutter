@@ -26,6 +26,10 @@ class UIKit {
   DownloadTask? backgroundDownloadTask;
   StreamSubscription<TaskUpdate>? downloadSubscription;
 
+  static String currentAppId = '';
+  static String currentUserId = '';
+  static String currentNickname = '';
+
   static Widget provider({required Widget child}) {
     return SendbirdUIKit.provider(child: child);
   }
@@ -35,6 +39,7 @@ class UIKit {
   }
 
   static Future<bool> logout() async {
+    SendbirdChat.removeAllConnectionHandlers();
     return await SendbirdUIKit.disconnect();
   }
 
@@ -44,6 +49,10 @@ class UIKit {
 
   static Future<bool> login(
       String appId, String userId, String nickname) async {
+    currentAppId = appId;
+    currentUserId = userId;
+    currentNickname = nickname;
+
     if (appId.isEmpty || userId.isEmpty) {
       return false;
     }
@@ -56,17 +65,7 @@ class UIKit {
     if (isGranted) {
       if (await initSendbirdUIKit(appId: appId)) {
         if (await SendbirdUIKit.connect(userId, nickname: nickname)) {
-          await AppPrefs().setAppId(appId);
-          await AppPrefs().setUserId(userId);
-          await AppPrefs().setNickname(nickname);
-
-          if (SendbirdChat.getPendingPushToken() != null) {
-            await PushManager.registerPushToken();
-          }
-
-          if ((await PushManager.checkPushNotification()) == false) {
-            Get.offAndToNamed('/basic_sample');
-          }
+          await connected(currentAppId, currentUserId, currentNickname);
           return true;
         }
       }
@@ -89,6 +88,8 @@ class UIKit {
     return await SendbirdUIKit.init(
       appId: appId,
       options: SendbirdChatOptions()..useAutoResend = true,
+      navigatorKey: Get.key,
+      addCloseButtonInDelayedConnectingDialog: false,
       takePhoto: kIsWeb
           ? null
           : () async {
@@ -263,6 +264,26 @@ class UIKit {
       }
       status = await FileDownloader().permissions.request(permissionType);
       debugPrint('[FileDownloader] Permission for $permissionType was $status');
+    }
+  }
+
+  static Future<void> connected(
+      String appId, String userId, String nickname) async {
+    await AppPrefs().setAppId(appId);
+    await AppPrefs().setUserId(userId);
+    await AppPrefs().setNickname(nickname);
+
+    if (SendbirdChat.getPendingPushToken() != null) {
+      await PushManager.registerPushToken();
+    }
+
+    if ((await PushManager.checkPushNotification()) == false) {
+      if (Get.currentRoute.startsWith('/waiting_for_connection')) {
+        Get.back();
+      }
+      if (Get.currentRoute.startsWith('/basic_sample_login')) {
+        Get.offAllNamed('/basic_sample');
+      }
     }
   }
 }
