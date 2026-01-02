@@ -62,6 +62,8 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>Please grant photo gallery access</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Please grant photo gallery access to save images</string>
     <key>NSCameraUsageDescription</key>
     <string>Please grant camera access</string>
     <key>NSMicrophoneUsageDescription</key>

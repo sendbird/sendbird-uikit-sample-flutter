@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Sendbird, Inc. All rights reserved.
 
 import 'package:easy_image_viewer/easy_image_viewer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -50,10 +51,30 @@ class GroupChannelPageState extends State<GroupChannelPage> {
             } else if (message is FileMessage && message.secureUrl.isNotEmpty) {
               if (message.type != null) {
                 if (message.type!.startsWith('image')) {
+                  if (kIsWeb) return;
                   showImageViewer(context, NetworkImage(message.secureUrl));
                 } else if (message.type!.startsWith('video')) {
                   Get.toNamed('/group_channel/video_viewer', arguments: {
                     'url': message.secureUrl,
+                  });
+                }
+              }
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+          }
+        },
+        onListItemWithIndexClicked: (channel, message, index) async {
+          try {
+            if (message is MultipleFilesMessage) {
+              UploadedFileInfo fileInfo = message.files[index];
+              if (fileInfo.type != null) {
+                if (fileInfo.type!.startsWith('image')) {
+                  if (kIsWeb) return;
+                  showImageViewer(context, NetworkImage(fileInfo.secureUrl));
+                } else if (fileInfo.type!.startsWith('video')) {
+                  Get.toNamed('/group_channel/video_viewer', arguments: {
+                    'url': fileInfo.secureUrl,
                   });
                 }
               }

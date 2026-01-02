@@ -2,8 +2,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <!-- Android 13+ permissions for media access -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    
+    <!-- Camera permission for taking photos and videos -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="${applicationName}"
@@ -15,7 +22,7 @@
             android:exported="true"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
-            android:showWhenLocked="true"
+            android:showWhenLocked="false"
             android:theme="@style/LaunchTheme"
             android:turnScreenOn="true"
             android:windowSoftInputMode="adjustResize"> <!-- showWhenLocked and turnScreenOn for [flutter_local_notifications] -->

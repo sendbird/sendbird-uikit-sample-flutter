@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:background_downloader/background_downloader.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart' as ph;
 import 'package:sendbird_chat_sdk/sendbird_chat_sdk.dart';
 import 'package:sendbird_uikit/sendbird_uikit.dart';
 import 'package:sendbird_uikit_sample/notifications/push_manager.dart';
@@ -127,6 +129,9 @@ class UIKit {
       chooseDocument: () async {
         return await _chooseFile(fileType: FileType.any);
       },
+      chooseFiles: () async {
+        return await _chooseFiles(fileType: FileType.any);
+      },
       downloadFile: kIsWeb
           ? null
           : (fileUrl, fileName, downloadCompleted) async {
@@ -137,8 +142,8 @@ class UIKit {
 
   static Future<FileInfo?> _chooseFile({required FileType fileType}) async {
     try {
-      if (!kIsWeb && Platform.isAndroid) {
-        await _getPermission(PermissionType.androidSharedStorage);
+      if (!(await _checkPermissions())) {
+        return null;
       }
 
       final result = await FilePicker.platform.pickFiles(
@@ -152,18 +157,16 @@ class UIKit {
 
         if (kIsWeb) {
           if (file.bytes != null) {
-            return FileInfo.fromFileBytes(
+            return FileInfo(
               fileBytes: file.bytes,
               fileName: file.name,
-              mimeType: 'image/*',
             );
           }
         } else {
           if (file.path != null) {
-            return FileInfo.fromFile(
+            return FileInfo(
               file: File(file.path!),
               fileName: file.name,
-              mimeType: 'image/*',
             );
           }
         }
@@ -172,6 +175,116 @@ class UIKit {
       debugPrint('[FilePicker][Error] ${e.toString()}');
     }
     return null;
+  }
+
+  static Future<List<FileInfo>> _chooseFiles({
+    required FileType fileType,
+  }) async {
+    List<FileInfo> fileInfoList = [];
+
+    try {
+      if (!(await _checkPermissions())) {
+        return [];
+      }
+
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+        allowMultiple: true,
+        compressionQuality: 0, // for Android 10
+      );
+
+      if (result != null && result.files.isNotEmpty) {
+        // Sort files by name on web to ensure consistent ordering
+        final files = kIsWeb
+            ? (result.files.toList()..sort((a, b) => a.name.compareTo(b.name)))
+            : result.files;
+
+        for (PlatformFile file in files) {
+          if (kIsWeb) {
+            if (file.bytes != null) {
+              fileInfoList.add(FileInfo(
+                fileBytes: file.bytes,
+                fileName: file.name,
+              ));
+            }
+          } else {
+            if (file.path != null) {
+              fileInfoList.add(FileInfo(
+                file: File(file.path!),
+                fileName: file.name,
+              ));
+            }
+          }
+        }
+      }
+      return fileInfoList;
+    } catch (e) {
+      debugPrint('[FilePicker][Error] ${e.toString()}');
+    }
+    return fileInfoList;
+  }
+
+  static Future<bool> _checkPermissions() async {
+    if (kIsWeb) {
+      return true;
+    }
+
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      // 33 = Android 13 (Tiramisu)
+      if (androidInfo.version.sdkInt < 33) {
+        // Fallback for Android versions below 13
+        await _getPermission(PermissionType.androidSharedStorage);
+      } else {
+        final isGranted = await ph.Permission.camera.status.isGranted ||
+            await ph.Permission.photos.status.isGranted &&
+                await ph.Permission.videos.status.isGranted;
+        if (!isGranted) {
+          Map<ph.Permission, ph.PermissionStatus> statuses = await [
+            ph.Permission.camera,
+            ph.Permission.photos,
+            ph.Permission.videos,
+          ].request();
+
+          if (statuses[ph.Permission.camera] != ph.PermissionStatus.granted ||
+              statuses[ph.Permission.photos] != ph.PermissionStatus.granted ||
+              statuses[ph.Permission.videos] != ph.PermissionStatus.granted) {
+            if (statuses[ph.Permission.camera] ==
+                    ph.PermissionStatus.permanentlyDenied ||
+                statuses[ph.Permission.photos] ==
+                    ph.PermissionStatus.permanentlyDenied ||
+                statuses[ph.Permission.videos] ==
+                    ph.PermissionStatus.permanentlyDenied) {
+              // Open app settings for user to manually grant permission
+              await ph.openAppSettings();
+            }
+            return false;
+          }
+        }
+      }
+    } else if (Platform.isIOS) {
+      // Check and request iOS photo library permissions
+      ph.PermissionStatus status = await ph.Permission.photos.status;
+      if (status.isDenied ||
+          status.isRestricted ||
+          status.isPermanentlyDenied) {
+        status = await ph.Permission.photos.request();
+        if (status.isDenied ||
+            status.isRestricted ||
+            status.isPermanentlyDenied) {
+          debugPrint('[FilePicker] Photo library permission denied');
+          if (status.isPermanentlyDenied) {
+            // Open app settings for user to manually grant permission
+            await ph.openAppSettings();
+          }
+          return false;
+        }
+      } else if (status.isLimited) {
+        // iOS 14+ limited photos access - user selected specific photos
+        debugPrint('[FilePicker] Limited photo library access granted');
+      }
+    }
+    return true;
   }
 
   static Future<void> _downloadFile(
