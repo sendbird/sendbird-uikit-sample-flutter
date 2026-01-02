@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sendbird_uikit_sample/notifications/local_notifications_manager.dart';
@@ -36,11 +35,11 @@ void main() {
 
       FlutterError.onError = (errorDetails) {
         debugPrint('[FlutterError] ${errorDetails.stack}');
-        Fluttertoast.showToast(
-          msg: '[FlutterError] ${errorDetails.stack}',
-          gravity: ToastGravity.CENTER,
-          toastLength: Toast.LENGTH_SHORT,
-        );
+        // Fluttertoast.showToast(
+        //   msg: '[FlutterError] ${errorDetails.stack}',
+        //   gravity: ToastGravity.CENTER,
+        //   toastLength: Toast.LENGTH_SHORT,
+        // );
       };
 
       await PushManager.initialize();
@@ -52,11 +51,11 @@ void main() {
     },
     (error, stackTrace) async {
       debugPrint('[Error] $error\n$stackTrace');
-      Fluttertoast.showToast(
-        msg: '[Error] $error',
-        gravity: ToastGravity.CENTER,
-        toastLength: Toast.LENGTH_SHORT,
-      );
+      // Fluttertoast.showToast(
+      //   msg: '[Error] $error',
+      //   gravity: ToastGravity.CENTER,
+      //   toastLength: Toast.LENGTH_SHORT,
+      // );
     },
   );
 }
